@@ -1,55 +1,84 @@
 package com.project.cognizant.eventmanagementsystem.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.List;
 
 @Entity
-@Getter
 public class EventManager {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eventManagerId;
     private String eventName;
     private String eventManagerEmailId;
     private long eventManagerPhoneNumber;
+    private double eventManagerPrice;
     private int rating;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="addressId")
-    private Address address;
-
+    private String city;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Event> eventList;
 
-    public EventManager() {
-        super();
+    public int getEventManagerId() {
+        return eventManagerId;
     }
 
-    public EventManager(String eventName, String eventManagerEmailId, long eventManagerPhoneNumber, int rating,
-            Address address) {
-        this.eventName = eventName;
-        this.eventManagerEmailId = eventManagerEmailId;
-        this.eventManagerPhoneNumber = eventManagerPhoneNumber;
-        this.rating = rating;
-        this.address = address;
+    public void setEventManagerId(int eventManagerId) {
+        this.eventManagerId = eventManagerId;
+    }
+
+    public String getEventName() {
+        return eventName;
     }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
 
+    public String getEventManagerEmailId() {
+        return eventManagerEmailId;
+    }
+
     public void setEventManagerEmailId(String eventManagerEmailId) {
         this.eventManagerEmailId = eventManagerEmailId;
+    }
+
+    public long getEventManagerPhoneNumber() {
+        return eventManagerPhoneNumber;
     }
 
     public void setEventManagerPhoneNumber(long eventManagerPhoneNumber) {
         this.eventManagerPhoneNumber = eventManagerPhoneNumber;
     }
 
+    public double getEventManagerPrice() {
+        return eventManagerPrice;
+    }
+
+    public void setEventManagerPrice(double eventManagerPrice) {
+        this.eventManagerPrice = eventManagerPrice;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
     public void setRating(int rating) {
         this.rating = rating;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+    }
 }

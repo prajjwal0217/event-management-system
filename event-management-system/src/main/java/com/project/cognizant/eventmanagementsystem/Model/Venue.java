@@ -1,56 +1,83 @@
 package com.project.cognizant.eventmanagementsystem.Model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import java.util.List;
 
 @Entity
-@Getter
 public class Venue {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int venueId;
     private String venueName;
     private String ownerName;
     private long ownerNumber;
     private String venueType;
     private double venuePrice;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
+    private String city;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Event> event;
-    public Venue() {
+
+    public int getVenueId() {
+        return venueId;
     }
 
-    public Venue(String venueName, String ownerName, long ownerNumber, String venueType, double venuePrice,
-            Address address) {
-        this.venueName = venueName;
-        this.ownerName = ownerName;
-        this.ownerNumber = ownerNumber;
-        this.venueType = venueType;
-        this.venuePrice = venuePrice;
-        this.address = address;
+    public void setVenueId(int venueId) {
+        this.venueId = venueId;
+    }
+
+    public String getVenueName() {
+        return venueName;
     }
 
     public void setVenueName(String venueName) {
         this.venueName = venueName;
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public long getOwnerNumber() {
+        return ownerNumber;
     }
 
     public void setOwnerNumber(long ownerNumber) {
         this.ownerNumber = ownerNumber;
     }
 
+    public String getVenueType() {
+        return venueType;
+    }
+
     public void setVenueType(String venueType) {
         this.venueType = venueType;
+    }
+
+    public double getVenuePrice() {
+        return venuePrice;
     }
 
     public void setVenuePrice(double venuePrice) {
         this.venuePrice = venuePrice;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public List<Event> getEvent() {
+        return event;
+    }
+
+    public void setEvent(List<Event> event) {
+        this.event = event;
+    }
 }

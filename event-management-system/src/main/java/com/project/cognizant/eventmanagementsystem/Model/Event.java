@@ -7,11 +7,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
-@Getter
 public class Event {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eventId;
     private LocalDate eventDate;
     private LocalTime eventTime;
@@ -27,47 +25,72 @@ public class Event {
     @ManyToOne(cascade = CascadeType.ALL)
     private Decoration decoration;
 
-    public Event() {
+    public int getEventId() {
+        return eventId;
     }
 
-    public Event(LocalDate eventDate, LocalTime eventTime, double totalPrice, EventManager eventManager,
-            Customer customer, Cake cake, Venue venue, Decoration decoration) {
-        this.eventDate = eventDate;
-        this.eventTime = eventTime;
-        this.totalPrice = totalPrice;
-        this.eventManager = eventManager;
-        this.customer = customer;
-//        this.cake = cake;
-        this.venue = venue;
-        this.decoration = decoration;
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
+
+    public LocalDate getEventDate() {
+        return eventDate;
     }
 
     public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
 
+    public LocalTime getEventTime() {
+        return eventTime;
+    }
+
     public void setEventTime(LocalTime eventTime) {
         this.eventTime = eventTime;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
+    public EventManager getEventManager() {
+        return eventManager;
+    }
+
     public void setEventManager(EventManager eventManager) {
         this.eventManager = eventManager;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-   /* public void setCake(Cake cake) {
+    public Cake getCake() {
+        return cake;
+    }
+
+    public void setCake(Cake cake) {
         this.cake = cake;
-    }*/
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
 
     public void setVenue(Venue venue) {
         this.venue = venue;
+    }
+
+    public Decoration getDecoration() {
+        return decoration;
     }
 
     public void setDecoration(Decoration decoration) {
