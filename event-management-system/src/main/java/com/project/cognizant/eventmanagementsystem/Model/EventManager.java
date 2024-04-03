@@ -1,10 +1,15 @@
 package com.project.cognizant.eventmanagementsystem.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class EventManager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,69 +21,27 @@ public class EventManager {
     private int rating;
     private String city;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Event> eventList;
 
-    public int getEventManagerId() {
-        return eventManagerId;
-    }
-
-    public void setEventManagerId(int eventManagerId) {
-        this.eventManagerId = eventManagerId;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
+    public EventManager(String eventName, String eventManagerEmailId, long eventManagerPhoneNumber, double eventManagerPrice,String city) {
         this.eventName = eventName;
-    }
-
-    public String getEventManagerEmailId() {
-        return eventManagerEmailId;
-    }
-
-    public void setEventManagerEmailId(String eventManagerEmailId) {
         this.eventManagerEmailId = eventManagerEmailId;
-    }
-
-    public long getEventManagerPhoneNumber() {
-        return eventManagerPhoneNumber;
-    }
-
-    public void setEventManagerPhoneNumber(long eventManagerPhoneNumber) {
         this.eventManagerPhoneNumber = eventManagerPhoneNumber;
-    }
-
-    public double getEventManagerPrice() {
-        return eventManagerPrice;
-    }
-
-    public void setEventManagerPrice(double eventManagerPrice) {
         this.eventManagerPrice = eventManagerPrice;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
         this.city = city;
     }
 
-    public List<Event> getEventList() {
-        return eventList;
-    }
-
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
+    @Override
+    public String toString() {
+        return "EventManager{" +
+                "eventManagerId=" + eventManagerId +
+                ", eventName='" + eventName + '\'' +
+                ", eventManagerEmailId='" + eventManagerEmailId + '\'' +
+                ", eventManagerPhoneNumber=" + eventManagerPhoneNumber +
+                ", eventManagerPrice=" + eventManagerPrice +
+                ", rating=" + rating +
+                ", city='" + city + '\'' +
+                '}';
     }
 }

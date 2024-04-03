@@ -1,12 +1,17 @@
 package com.project.cognizant.eventmanagementsystem.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Customer {
 
     @Id
@@ -17,53 +22,13 @@ public class Customer {
     private long PhoneNumber;
     private String city;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Event> event;
 
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
+    public Customer(String customerName, String emailId, long phoneNumber, String city) {
         this.customerName = customerName;
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
         this.emailId = emailId;
-    }
-
-    public long getPhoneNumber() {
-        return PhoneNumber;
-    }
-
-    public void setPhoneNumber(long phoneNumber) {
         PhoneNumber = phoneNumber;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
         this.city = city;
-    }
-
-    public List<Event> getEvent() {
-        return event;
-    }
-
-    public void setEvent(List<Event> event) {
-        this.event = event;
     }
 }

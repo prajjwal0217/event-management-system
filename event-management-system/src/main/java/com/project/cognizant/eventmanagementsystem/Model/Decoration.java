@@ -1,49 +1,29 @@
 package com.project.cognizant.eventmanagementsystem.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Entity
-@Getter
+@Data
+@NoArgsConstructor
 public class Decoration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int decorationId;
     private String decorationType;
     private double decorationPrice;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @JsonIgnore
     private  List<Event> eventList;
 
-    public int getDecorationId() {
-        return decorationId;
-    }
-
-    public void setDecorationId(int decorationId) {
-        this.decorationId = decorationId;
-    }
-
-    public String getDecorationType() {
-        return decorationType;
-    }
-
-    public void setDecorationType(String decorationType) {
+    public Decoration(String decorationType, double decorationPrice) {
         this.decorationType = decorationType;
-    }
-
-    public double getDecorationPrice() {
-        return decorationPrice;
-    }
-
-    public void setDecorationPrice(double decorationPrice) {
         this.decorationPrice = decorationPrice;
     }
 
-    public List<Event> getEventList() {
-        return eventList;
-    }
-
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
-    }
 }
