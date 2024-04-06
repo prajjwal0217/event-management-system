@@ -5,6 +5,8 @@ import com.project.cognizant.eventmanagementsystem.Repository.EventManagerReposi
 import com.project.cognizant.eventmanagementsystem.Services.EventManagerServices;
 import com.project.cognizant.eventmanagementsystem.dto.ShowBookEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +24,16 @@ public class EventManagerController {
     EventManagerServices eventManagerServices;
 
     @GetMapping("/view/events/{eventMangerId}")
-    public List<ShowBookEvent> viewEvent(@PathVariable int eventMangerId){
-            return eventManagerServices.getEventByEventManager(eventMangerId);
+    public ResponseEntity<List<ShowBookEvent>> viewEvent(@PathVariable int eventMangerId){
+            return new ResponseEntity<>(eventManagerServices.getEventByEventManager(eventMangerId), HttpStatus.OK);
     }
     @GetMapping("/accept/{eventId}/{status}")
-    public String acceptEvent(@PathVariable int eventId,@PathVariable String status){
-        return eventManagerServices.acceptingEvent(eventId,status);
+    public ResponseEntity<String> acceptEvent(@PathVariable int eventId,@PathVariable String status){
+        return new ResponseEntity<>(eventManagerServices.acceptingEvent(eventId,status),HttpStatus.OK);
     }
 
-    @GetMapping("/cancel/{eventId}/{currDate}")
-    public String cancelEvent(@PathVariable int eventId, @PathVariable LocalDate currDate){
-        return eventManagerServices.cancelEventByEventManager(eventId,currDate);
+    @GetMapping("/cancel/{eventId}")
+    public ResponseEntity<String> cancelEvent(@PathVariable int eventId){
+        return new ResponseEntity<>(eventManagerServices.cancelEventByEventManager(eventId),HttpStatus.OK);
     }
 }

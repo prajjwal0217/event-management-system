@@ -21,7 +21,7 @@ public class Customer {
     private String emailId;
     private long PhoneNumber;
     private String city;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Event> event;
 

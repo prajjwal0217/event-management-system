@@ -20,11 +20,9 @@ public class Venue {
     private String venueType;
     private double venuePrice;
     private String city;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "venue")
     @JsonIgnore
     private List<Event> event;
-
     public Venue(String venueName, String ownerName, long ownerNumber, String venueType, double venuePrice, String city) {
         this.venueName = venueName;
         this.ownerName = ownerName;

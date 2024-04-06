@@ -17,7 +17,7 @@ public class Decoration {
     private int decorationId;
     private String decorationType;
     private double decorationPrice;
-    @OneToMany
+    @OneToMany(mappedBy = "decoration")
     @JsonIgnore
     private  List<Event> eventList;
 

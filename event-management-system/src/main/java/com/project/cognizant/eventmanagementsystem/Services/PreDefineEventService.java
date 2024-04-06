@@ -2,6 +2,7 @@ package com.project.cognizant.eventmanagementsystem.Services;
 
 import com.project.cognizant.eventmanagementsystem.Model.*;
 import com.project.cognizant.eventmanagementsystem.Repository.*;
+import com.project.cognizant.eventmanagementsystem.UserDefineException.NotExistInDatabase;
 import com.project.cognizant.eventmanagementsystem.dto.ShowBookEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,29 @@ public class PreDefineEventService{
     DecorationRepository decorationRepository;
     @Autowired
     VenueRepository venueRepository;
-
     @Autowired
     PreDefineEventsRepository preDefineEventsRepository;
     // add predefine events
-
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    CustomerRepository customerRepository;
+
+    public Cake findCakeById(int cakeId){
+        return cakeRepository.findById(cakeId).orElseThrow(()->new NotExistInDatabase("The cake id is not in the database"));
+    }
+    public Decoration findDecorationById(int decorationId){
+        return decorationRepository.findById(decorationId).orElseThrow(()-> new NotExistInDatabase("The decoration id is not in the database"));
+    }
+    public Venue findVenueById(int venueId){
+        return venueRepository.findById(venueId).orElseThrow(()-> new NotExistInDatabase("Venue Id is not in the database"));
+    }
+    public PreDefineEvents findPreDefineEventsById(int preDefineEventId){
+        return preDefineEventsRepository.findById(preDefineEventId).orElseThrow(()-> new NotExistInDatabase("This pre define event is not in the database"));
+    }
+    public List<Customer> viewCustomer(){
+        return customerRepository.findAll();
+    }
     public Cake addCake(Cake cake) {
         return cakeRepository.save(cake);
     }
@@ -40,7 +57,6 @@ public class PreDefineEventService{
     public List<Decoration> addDecorations(List<Decoration> decorations) {
         return decorationRepository.saveAll(decorations);
     }
-
     public Venue addVenue(Venue venue) {
         return venueRepository.save(venue);
     }

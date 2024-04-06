@@ -20,7 +20,7 @@ public class EventManager {
     private double eventManagerPrice;
     private int rating;
     private String city;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "eventManager")
     @JsonIgnore
     private List<Event> eventList;
 

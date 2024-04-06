@@ -1,12 +1,14 @@
 package com.project.cognizant.eventmanagementsystem.Controller;
 
 import com.project.cognizant.eventmanagementsystem.Model.*;
-import com.project.cognizant.eventmanagementsystem.Repository.*;
 import com.project.cognizant.eventmanagementsystem.Services.CustomerService;
 import com.project.cognizant.eventmanagementsystem.Services.EventManagerServices;
-import com.project.cognizant.eventmanagementsystem.dto.BookEvent;
+import com.project.cognizant.eventmanagementsystem.Services.PreDefineEventService;
 import com.project.cognizant.eventmanagementsystem.dto.BookPreDefineEvent;
+import com.project.cognizant.eventmanagementsystem.dto.EventBooking;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,101 +17,84 @@ import java.util.List;
 @RequestMapping("/user")
 public class CustomerController {
 
-    @Autowired
-    CustomerService customerService;
-    @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    EventManagerRepository eventManagerRepository;
-    @Autowired
-    CakeRepository cakeRepository;
-    @Autowired
-    VenueRepository venueRepository;
-    @Autowired
-    DecorationRepository decorationRepository;
+    private final CustomerService customerService;
+    private final EventManagerServices eventManagerServices;
+    private final PreDefineEventService preDefineEventService;
 
     @Autowired
-    PreDefineEventsRepository preDefineEventsRepository;
-    @Autowired
-    EventManagerServices eventManagerServices;
-    @GetMapping("/view")
-    public List<Customer> viewCustomer(){
-        return customerRepository.findAll();
+    public CustomerController(CustomerService customerService, EventManagerServices eventManagerServices, PreDefineEventService preDefineEventService) {
+        this.customerService = customerService;
+        this.eventManagerServices = eventManagerServices;
+        this.preDefineEventService = preDefineEventService;
     }
+
     @PostMapping("/add")
     public Customer addCustomer(@RequestBody Customer customer){
         return customerService.addAnCustomer(customer);
     }
 
     @GetMapping("/view/eventManager/{id}")
-    public List<EventManager> getEventManager(@PathVariable("id") int customerId){
-        return customerService.viewEventManager(customerId);
+    public ResponseEntity<List<EventManager>> getEventManager(@PathVariable("id") int customerId){
+        return new ResponseEntity<>(customerService.viewEventManager(customerId), HttpStatus.OK);
     }
 
     @GetMapping("/view/cake")
-    public List<Cake> getCakes(){
-        return customerService.viewCakes();
+    public ResponseEntity<List<Cake>> getCakes(){
+        return new ResponseEntity<>(customerService.viewCakes(),HttpStatus.OK);
     }
 
     @GetMapping("/view/decoration")
-    public List<Decoration> getDecroation(){
-        return customerService.viewDecoration();
+    public ResponseEntity<List<Decoration>> getDecoration(){
+        return new ResponseEntity<>(customerService.viewDecoration(),HttpStatus.OK);
     }
 
     @GetMapping("/view/venue/{id}")
-    public List<Venue> getVenue(@PathVariable("id") int customerId){
-        return customerService.viewVenue(customerId);
+    public ResponseEntity<List<Venue>> getVenue(@PathVariable("id") int customerId){
+        return new ResponseEntity<>(customerService.viewVenue(customerId),HttpStatus.OK);
     }
 
     @GetMapping("/view/preDefineEvent")
-    public List<PreDefineEvents> getPreDefineEvents(){
-        return customerService.viewPreDefineEvent();
+    public ResponseEntity<List<PreDefineEvents>> getPreDefineEvents(){
+        return new ResponseEntity<>(customerService.viewPreDefineEvent(),HttpStatus.OK);
     }
 
-    @GetMapping("/add/event/{cid}/{eid}/{did}/{caid}/{vid}")
-    public String bookEvent(@PathVariable("cid") int customerId,@PathVariable("eid") int eventmangerId,@PathVariable("did") int decarationId,@PathVariable("caid") int cakeId,@PathVariable("vid") int venueId){
-        Customer customer = customerRepository.findById(customerId).orElseThrow();
-        EventManager eventManager = eventManagerRepository.findById(eventmangerId).orElseThrow();
-        Decoration decoration = decorationRepository.findById(decarationId).orElseThrow();
-        Cake cake = cakeRepository.findById(cakeId).orElseThrow();
-        Venue venue = venueRepository.findById(venueId).orElseThrow();
-        BookEvent obj = new BookEvent(customer,eventManager,cake,decoration,venue);
-        return customerService.addAnEvent(obj);
+    @PostMapping("/add/event")
+    public ResponseEntity<String> bookEvent(@RequestBody EventBooking eventBooking){
+        return new ResponseEntity<>(customerService.addAnEvent(eventBooking),HttpStatus.OK);
     }
 
-    @GetMapping("/add/preDefineEvent/{cid}/{eid}/{pid}/{vid}")
-    public String bookPredefineEvent(@PathVariable("cid") int customerId,@PathVariable("eid") int eventmangerId,@PathVariable("pid") int preDefineEventId,@PathVariable("vid") int venueId){
-        Customer customer = customerRepository.findById(customerId).orElseThrow();
-        EventManager eventManager = eventManagerRepository.findById(eventmangerId).orElseThrow();
-        PreDefineEvents preDefineEvents = preDefineEventsRepository.findById(preDefineEventId).orElseThrow();
-        Venue venue = venueRepository.findById(venueId).orElseThrow();
-        BookPreDefineEvent bookPreDefineEvent = new BookPreDefineEvent(customer,eventManager,preDefineEvents,venue);
-        return customerService.addPreDefineEvent(bookPreDefineEvent);
+    @PostMapping("/add/preDefineEvent")
+    public ResponseEntity<String> bookPredefineEvent(@RequestBody BookPreDefineEvent bookPreDefineEvent){
+        return new ResponseEntity<>(customerService.addPreDefineEvent(bookPreDefineEvent),HttpStatus.OK);
     }
 
     @GetMapping("/discount/{eventId}/{eventMangerId}")
-    public String getDiscount(@PathVariable int eventId,@PathVariable int eventMangerId){
-        return eventManagerServices.getDiscount(eventId,eventMangerId);
+    public ResponseEntity<String> getDiscount(@PathVariable int eventId,@PathVariable int eventMangerId){
+        return new ResponseEntity<>(eventManagerServices.getDiscount(eventId,eventMangerId),HttpStatus.OK);
     }
 
     @GetMapping("/change/cake/{eventId}/{cakeId}")
-    public void changeCake(@PathVariable int eventId,@PathVariable int cakeId){
-        customerService.changeCake(eventId,cakeId);
+    public ResponseEntity<String> changeCake(@PathVariable int eventId,@PathVariable int cakeId){
+        return new ResponseEntity<>(customerService.changeCake(eventId,cakeId),HttpStatus.OK);
     }
 
     @GetMapping("/change/decoration/{eventId}/{decorationId}")
-    public void changeDecoration(@PathVariable int eventId,@PathVariable int decorationId){
-        customerService.changeDecoration(eventId,decorationId);
+    public ResponseEntity<String> changeDecoration(@PathVariable int eventId,@PathVariable int decorationId){
+        return new ResponseEntity<>(customerService.changeDecoration(eventId,decorationId),HttpStatus.OK);
     }
 
     @GetMapping("/change/venue/{eventId}/{venueId}")
-    public void changeVenue(@PathVariable int eventId,@PathVariable int venueId){
-        customerService.changeVenue(eventId,venueId);
+    public ResponseEntity<String> changeVenue(@PathVariable int eventId,@PathVariable int venueId){
+        return new ResponseEntity<>(customerService.changeVenue(eventId,venueId),HttpStatus.OK);
     }
 
-    @GetMapping("/cancel/{eventId}/{cancelDate}")
-    public String cancelEvent(@PathVariable int eventId,@PathVariable String cancelDate){
-        return  customerService.cancelEvent(eventId,cancelDate);
+    @GetMapping("/cancel/{eventId}")
+    public ResponseEntity<String> cancelEvent(@PathVariable int eventId){
+        return  new ResponseEntity<>(customerService.cancelEvent(eventId),HttpStatus.OK);
     }
 
+    @GetMapping("/rating/{eventManagerId}/{rating}")
+    public ResponseEntity<String> takeRating(@PathVariable int eventManagerId,@PathVariable int rating){
+        return new ResponseEntity<>(customerService.takeRating(eventManagerId,rating),HttpStatus.OK);
+    }
 }

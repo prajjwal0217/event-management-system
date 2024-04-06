@@ -1,21 +1,13 @@
 package com.project.cognizant.eventmanagementsystem;
 
-import com.project.cognizant.eventmanagementsystem.Model.*;
 import com.project.cognizant.eventmanagementsystem.Repository.*;
 import com.project.cognizant.eventmanagementsystem.Services.CustomerService;
 import com.project.cognizant.eventmanagementsystem.Services.EventManagerServices;
 import com.project.cognizant.eventmanagementsystem.Services.PreDefineEventService;
-import com.project.cognizant.eventmanagementsystem.dto.BookEvent;
-import com.project.cognizant.eventmanagementsystem.dto.BookPreDefineEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class EventManagementSystemApplication implements CommandLineRunner {
@@ -130,5 +122,14 @@ public class EventManagementSystemApplication implements CommandLineRunner {
 //		//customerService.addPreDefineEvent(bookPreDefineEvent);
 //		Customer customer =customerRepository.findById(1).orElseThrow();
 //		System.out.println(customer.getEmailId());
+//		EventBooking eventBooking = new EventBooking(2,2,2,2,2);
+//		Customer customer = customerService.customerById(eventBooking.getCustomerId());
+//		EventManager eventManager = eventManagerServices.getEventMangerById(eventBooking.getEventMangerId());
+//		Decoration decoration = preDefineEventService.findDecorationById(eventBooking.getDecorationId());
+//		Cake cake = preDefineEventService.findCakeById(eventBooking.getCakeId());
+//		Venue venue = preDefineEventService.findVenueById(eventBooking.getVenueId());
+//		BookEvent obj = new BookEvent(customer,eventManager,cake,decoration,venue);
+//		customerService.addAnEvent(obj);
 	}
+
 }
