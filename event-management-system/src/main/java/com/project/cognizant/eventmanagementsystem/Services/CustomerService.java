@@ -1,5 +1,6 @@
 package com.project.cognizant.eventmanagementsystem.Services;
 
+import com.project.cognizant.eventmanagementsystem.IService.ICustomerService;
 import com.project.cognizant.eventmanagementsystem.Model.*;
 import com.project.cognizant.eventmanagementsystem.Repository.*;
 import com.project.cognizant.eventmanagementsystem.UserDefineException.NotExistInDatabase;
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
-public class CustomerService{
+public class CustomerService implements ICustomerService {
 
     /* USI001,USI003,USI007,USI008,USI005*/
     @Autowired

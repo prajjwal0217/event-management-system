@@ -1,5 +1,8 @@
 package com.project.cognizant.eventmanagementsystem.Controller;
 
+import com.project.cognizant.eventmanagementsystem.IService.ICustomerService;
+import com.project.cognizant.eventmanagementsystem.IService.IEventManagerService;
+import com.project.cognizant.eventmanagementsystem.IService.IPreDefineEventService;
 import com.project.cognizant.eventmanagementsystem.Model.*;
 import com.project.cognizant.eventmanagementsystem.Services.CustomerService;
 import com.project.cognizant.eventmanagementsystem.Services.EventManagerServices;
@@ -17,16 +20,9 @@ import java.util.List;
 @RequestMapping("/user")
 public class CustomerController {
 
-    private final CustomerService customerService;
-    private final EventManagerServices eventManagerServices;
-    private final PreDefineEventService preDefineEventService;
-
     @Autowired
-    public CustomerController(CustomerService customerService, EventManagerServices eventManagerServices, PreDefineEventService preDefineEventService) {
-        this.customerService = customerService;
-        this.eventManagerServices = eventManagerServices;
-        this.preDefineEventService = preDefineEventService;
-    }
+    private ICustomerService customerService;
+
 
     @PostMapping("/add")
     public Customer addCustomer(@RequestBody Customer customer){
@@ -66,11 +62,6 @@ public class CustomerController {
     @PostMapping("/add/preDefineEvent")
     public ResponseEntity<String> bookPredefineEvent(@RequestBody BookPreDefineEvent bookPreDefineEvent){
         return new ResponseEntity<>(customerService.addPreDefineEvent(bookPreDefineEvent),HttpStatus.OK);
-    }
-
-    @GetMapping("/discount/{eventId}/{eventMangerId}")
-    public ResponseEntity<String> getDiscount(@PathVariable int eventId,@PathVariable int eventMangerId){
-        return new ResponseEntity<>(eventManagerServices.getDiscount(eventId,eventMangerId),HttpStatus.OK);
     }
 
     @GetMapping("/change/cake/{eventId}/{cakeId}")

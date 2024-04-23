@@ -18,6 +18,8 @@ public class ShowBookEvent {
     private String cakeName;
     private String decorationName;
     private String venueName;
+    private String status;
+    private String eventManagerStatus;
     private LocalDate eventDate;
     private LocalTime eventTime;
     private double totalPrice;

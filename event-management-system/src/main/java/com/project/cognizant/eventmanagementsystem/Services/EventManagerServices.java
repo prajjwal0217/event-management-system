@@ -1,5 +1,6 @@
 package com.project.cognizant.eventmanagementsystem.Services;
 
+import com.project.cognizant.eventmanagementsystem.IService.IEventManagerService;
 import com.project.cognizant.eventmanagementsystem.Model.Customer;
 import com.project.cognizant.eventmanagementsystem.Model.Event;
 import com.project.cognizant.eventmanagementsystem.Model.EventManager;
@@ -7,6 +8,7 @@ import com.project.cognizant.eventmanagementsystem.Repository.EventManagerReposi
 import com.project.cognizant.eventmanagementsystem.Repository.EventRepository;
 import com.project.cognizant.eventmanagementsystem.UserDefineException.NotExistInDatabase;
 import com.project.cognizant.eventmanagementsystem.dto.ShowBookEvent;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
-public class EventManagerServices{
+public class EventManagerServices implements IEventManagerService {
 
     /*USI002,USI004,USI005,USI009*/
     @Autowired
@@ -23,6 +26,11 @@ public class EventManagerServices{
 
     @Autowired
     EventRepository eventRepository;
+
+    public EventManagerServices(EventManagerRepository eventManagerRepository, EventRepository eventRepository) {
+        this.eventManagerRepository = eventManagerRepository;
+        this.eventRepository = eventRepository;
+    }
 
     private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public EventManager getEventMangerById(int eventMangerId){
@@ -49,10 +57,16 @@ public class EventManagerServices{
                 obj.setEventManagerId(e.getEventManager().getEventManagerId());
                 obj.setCakeName(e.getCake().getCakeName());
                 obj.setDecorationName(e.getDecoration().getDecorationType());
-                obj.setVenueName(e.getVenue().getVenueName());
+                if(e.getVenue() == null){
+                    obj.setVenueName("Home");
+                }else {
+                    obj.setVenueName(e.getVenue().getVenueName());
+                }
                 obj.setEventDate(e.getEventDate());
                 obj.setEventTime(e.getEventTime());
                 obj.setTotalPrice(e.getTotalPrice());
+                obj.setStatus(e.getStatus());
+                obj.setEventManagerStatus(e.getEventMangerStatus());
                 showEvent.add(obj);
             }
         }
@@ -81,6 +95,7 @@ public class EventManagerServices{
             return "The event cannot be cancel now";
         }else{
             event.setStatus("canceled");
+            event.setEventMangerStatus("canceled");
             eventRepository.save(event);
             return "The event has been canceled";
         }

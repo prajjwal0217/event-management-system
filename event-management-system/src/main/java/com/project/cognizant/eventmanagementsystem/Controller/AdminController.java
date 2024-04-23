@@ -1,9 +1,11 @@
 package com.project.cognizant.eventmanagementsystem.Controller;
 
+import com.project.cognizant.eventmanagementsystem.IService.IPreDefineEventService;
 import com.project.cognizant.eventmanagementsystem.Model.*;
 import com.project.cognizant.eventmanagementsystem.Repository.CustomerRepository;
 import com.project.cognizant.eventmanagementsystem.Services.CustomerService;
 import com.project.cognizant.eventmanagementsystem.Services.PreDefineEventService;
+import com.project.cognizant.eventmanagementsystem.dto.PreDefineEventDto;
 import com.project.cognizant.eventmanagementsystem.dto.ShowBookEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    PreDefineEventService preDefineEventService;
+    IPreDefineEventService preDefineEventService;
 
     @GetMapping("/view/customer")
     public ResponseEntity<List<Customer>> viewCustomer() {
@@ -60,12 +62,13 @@ public class AdminController {
     }
 
     @PostMapping("/add/preDefineEvent")
-    public ResponseEntity<PreDefineEvents> addPreDefineEvent(@RequestBody PreDefineEvents preDefineEvents) {
-        return new ResponseEntity<>(preDefineEventService.addToPreDefineEvent(preDefineEvents),HttpStatus.OK);
+    public ResponseEntity<PreDefineEvents> addPreDefineEvent(@RequestBody PreDefineEventDto preDefineEvent) {
+        return new ResponseEntity<>(preDefineEventService.addToPreDefineEvent(preDefineEvent),HttpStatus.OK);
     }
 
     @PostMapping("/add/preDefineEvents")
     public ResponseEntity<List<PreDefineEvents>> addPreDefineEvents(@RequestBody List<PreDefineEvents> preDefineEvents) {
         return new ResponseEntity<>(preDefineEventService.addToPreDefineEvents(preDefineEvents),HttpStatus.OK);
     }
+
 }

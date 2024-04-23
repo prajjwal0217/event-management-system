@@ -23,6 +23,9 @@ public class Venue {
     @OneToMany(mappedBy = "venue")
     @JsonIgnore
     private List<Event> event;
+    public Venue(String venueType) {
+        this.venueType = venueType;
+    }
     public Venue(String venueName, String ownerName, long ownerNumber, String venueType, double venuePrice, String city) {
         this.venueName = venueName;
         this.ownerName = ownerName;

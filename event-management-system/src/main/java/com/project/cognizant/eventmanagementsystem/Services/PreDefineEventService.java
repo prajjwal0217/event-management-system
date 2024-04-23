@@ -1,8 +1,10 @@
 package com.project.cognizant.eventmanagementsystem.Services;
 
+import com.project.cognizant.eventmanagementsystem.IService.IPreDefineEventService;
 import com.project.cognizant.eventmanagementsystem.Model.*;
 import com.project.cognizant.eventmanagementsystem.Repository.*;
 import com.project.cognizant.eventmanagementsystem.UserDefineException.NotExistInDatabase;
+import com.project.cognizant.eventmanagementsystem.dto.PreDefineEventDto;
 import com.project.cognizant.eventmanagementsystem.dto.ShowBookEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PreDefineEventService{
+public class PreDefineEventService implements IPreDefineEventService {
 
     @Autowired
     CakeRepository cakeRepository;
@@ -65,7 +67,10 @@ public class PreDefineEventService{
         return venueRepository.saveAll(venues);
     }
 
-    public PreDefineEvents addToPreDefineEvent(PreDefineEvents preDefineEvents){
+    public PreDefineEvents addToPreDefineEvent(PreDefineEventDto preDefineEvent){
+        PreDefineEvents preDefineEvents = new PreDefineEvents();
+        preDefineEvents.setCake(cakeRepository.findById(preDefineEvent.getCakeId()).get());
+        preDefineEvents.setDecoration(decorationRepository.findById(preDefineEvent.getDecorationId()).get());
         return preDefineEventsRepository.save(preDefineEvents);
     }
 
@@ -75,7 +80,7 @@ public class PreDefineEventService{
 
     public List<ShowBookEvent> viewEvents(){
         List<Event> eventList= eventRepository.findAll();
-        List<ShowBookEvent> showEventclass = new ArrayList<>();
+        List<ShowBookEvent> showEvent = new ArrayList<>();
         for(Event e: eventList){
             ShowBookEvent obj = new ShowBookEvent();
             obj.setCustomerId(e.getCustomer().getCustomerId());
@@ -83,14 +88,19 @@ public class PreDefineEventService{
             obj.setEventManagerId(e.getEventManager().getEventManagerId());
             obj.setCakeName(e.getCake().getCakeName());
             obj.setDecorationName(e.getDecoration().getDecorationType());
-            obj.setVenueName(e.getVenue().getVenueName());
+            if(e.getVenue() == null){
+                obj.setVenueName("Home");
+            }else {
+                obj.setVenueName(e.getVenue().getVenueName());
+            }
             obj.setEventDate(e.getEventDate());
             obj.setEventTime(e.getEventTime());
             obj.setTotalPrice(e.getTotalPrice());
-            showEventclass.add(obj);
+            obj.setStatus(e.getStatus());
+            obj.setEventManagerStatus(e.getEventMangerStatus());
+            showEvent.add(obj);
         }
-        return showEventclass;
+        return showEvent;
     }
 
-    //view event details by customer id
 }
